@@ -54,4 +54,4 @@ services:
       - ./rabitpos:/var/www/html
       - ./logs:/var/log/apache2
     ports:
-      - 80:80
+      - 8081:80

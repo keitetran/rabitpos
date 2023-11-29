@@ -1,7 +1,7 @@
 ## Thông tin đăng nhập
 Phpmyadmin: http://localhost:8080
 
-Dashboard: http://localhost
+Dashboard: http://localhost:8081
 
 Login với tài khoản 
 - admin:123456
