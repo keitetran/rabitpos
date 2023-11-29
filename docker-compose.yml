@@ -1,0 +1,57 @@
+version: '3.9'
+
+services:
+
+  # MySQL server
+  mariadb:
+    image: "mariadb:${MARIA_DB_VERSION}"
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MARIA_DB_ROOT_PASSWORD}
+      MYSQL_USER: ${MARIA_DB_USER}
+      MYSQL_PASSWORD: ${MARIA_DB_PASSWORD}
+      TZ: ${TZ}
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - ./mysql/config/my.cnf:/etc/mysql/conf.d/my.cnf
+      - ./mysql/data:/var/lib/mysql
+    ports:
+      - 3306:3306
+
+
+  # phpMyAdmin
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    restart: always
+    links:
+      - mariadb
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOSTS=mariadb
+      - PMA_USER=root
+      - PMA_PASSWORD=${MARIA_DB_ROOT_PASSWORD}
+    ports:
+      - 8080:80
+
+
+  # App rabitpos
+  rabitpos:
+    restart: always
+    build:
+      context: .
+      dockerfile: dockerfile
+      args:
+        - TZ=${TZ}
+        - PHP_VERSION=${PHP_VERSION}
+    links:
+      - mariadb
+    deploy:
+      resources:
+        limits:
+          memory: ${APP_MEMORY_LIMIT}
+    volumes:
+      - ./php/my.ini:/usr/local/etc/php/conf.d/my.ini
+      - ./rabitpos:/var/www/html
+      - ./logs:/var/log/apache2
+    ports:
+      - 80:80
