@@ -24,6 +24,9 @@ Chỉnh sửa file sau nếu muốn thay đổi thông tin kết nối MySQL
 *** Tham khảo thông tin cài đặt ở file sau: 
 ``\rabitpos\.env``
 
+## Import sql 
+Truy cập vào đường dẫn ``http://localhost:8080`` để import sql vào. File sql nằm ở đây: ``\rabitpos\database\localhost.sql``
+
 
 ## Thông tin mã nguồn 
 Vui lòng lấy mã nguồn từ bạn `phamduybk`.
